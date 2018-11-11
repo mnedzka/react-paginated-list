@@ -77,29 +77,11 @@ class App extends React.Component {
   }
 }
 
-const List = ({ list, page, isLoading, onPaginatedSearch }) =>
-  <div>
-    <div className="list">
-      {list.map(item => <div className="list-row" key={item.objectID}>
-        <a href={item.url}>{item.title}</a>
-      </div>)}
-    </div>
-
-    <div className="interactions">
-      {isLoading && <span>Loading...</span>}
-    </div>
-
-    <div className="interactions">
-      {
-        (page !== null && !isLoading) &&
-        <button
-          type="button"
-          onClick={onPaginatedSearch}
-        >
-          More
-        </button>
-      }
-    </div>
+const List = ({ list }) =>
+  <div className="list">
+    {list.map(item => <div className="list-row" key={item.objectID}>
+      <a href={item.url}>{item.title}</a>
+    </div>)}
   </div>
 
 const withLoading = (Component) => (props) =>
@@ -128,9 +110,27 @@ const withPaginated = (Component) => (props) =>
     </div>
   </div>
 
+const DifferentList = ({ list }) =>
+  <div className="list">
+    {list.map(item => <div className="list-row" key={item.objectID}>
+      <span>
+        {item.author}
+      </span>
+      <span>
+        <a href={item.url}>{item.title}</a>
+      </span>
+      <span>
+        {item.num_comments}
+      </span>
+      <span>
+        {item.points}
+      </span>
+    </div>)}
+  </div>
+
 const ListWithLoadingWithPaginated = compose(
   withPaginated,
   withLoading,
-)(List);
+)(DifferentList);
 
 export default App;
